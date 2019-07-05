@@ -1,0 +1,25 @@
+{
+  "manifest_version": 2,
+  "name": "org-protocol",
+  "author": "Wojciech Siewierski",
+  "version": "1.0.1",
+  "icons": {
+    "48": "emacs48.png"
+  },
+  "permissions": ["activeTab"],
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "org-protocol@einval.eu",
+      "strict_min_version": "63.0"
+    }
+  },
+  "page_action": {
+    "browser_style": true,
+    "default_icon":  "emacs48.png",
+    "default_title": "org-store",
+    "show_matches": ["<all_urls>"]
+  },
+  "background": {
+    "scripts": ["background.js"]
+  }
+}
