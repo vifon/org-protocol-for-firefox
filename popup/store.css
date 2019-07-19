@@ -1,3 +1,6 @@
 .clicked {
   opacity: 0.4;
 }
+#store > * {
+  display: inline-block;
+}
