@@ -4,19 +4,32 @@ browser.tabs.query({ currentWindow: true, active: true }).then(
 
     const url = tab.url;
     const title = tab.title;
-    document.getElementById("url").textContent = url;
-    document.getElementById("title").textContent = title;
 
-    const orgUri =
+    document.getElementById("storeurl").textContent = url;
+    document.getElementById("storetitle").textContent = title;
+    document.getElementById("captureurl").textContent = url;
+    document.getElementById("capturetitle").textContent = title;
+
+    const storeUri =
           'org-protocol://store-link'
           + '?url=' + encodeURIComponent(url)
           + '&title=' + encodeURIComponent(title);
 
-    function listener(event) {
-      browser.tabs.update({url: orgUri});
-      event.currentTarget.classList.add("clicked");
-      event.currentTarget.removeEventListener('click', listener);
-    };
-    document.getElementById("store").addEventListener('click', listener);
+    const captureUri =
+          'org-protocol://capture'
+          + '?url=' + encodeURIComponent(url)
+          + '&title=' + encodeURIComponent(title);
+
+    document.getElementById("store").addEventListener('click',
+      function (event) {
+        browser.tabs.update({url: storeUri});
+      }
+    );
+
+    document.getElementById("capture").addEventListener('click',
+      function (event) {
+        browser.tabs.update({url: captureUri});
+      }
+    );
   }
 );

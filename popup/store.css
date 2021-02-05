@@ -1,6 +1,12 @@
 .clicked {
   opacity: 0.4;
 }
-#store > * {
+button > * {
   display: inline-block;
+}
+.title {
+  font-weight: bold;
+}
+img {
+  vertical-align: top;
 }
