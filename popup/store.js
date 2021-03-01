@@ -1,43 +1,46 @@
-browser.tabs.query({ currentWindow: true, active: true }).then(
-  tabs => {
-    const tab = tabs[0];
+"use strict";
 
-    const url = tab.url;
-    const title = tab.title;
+async function pageAction() {
+  const tabs = await browser.tabs.query({ currentWindow: true, active: true });
+  const tab = tabs[0];
 
-    document.getElementById("url").textContent = url;
-    document.getElementById("title").textContent = title;
+  const url = tab.url;
+  const title = tab.title;
 
-    const storeUri = () => (
-      'org-protocol://store-link'
-        + '?url=' + encodeURIComponent(url)
-        + '&title=' + encodeURIComponent(title)
-    );
+  document.getElementById("url").textContent = url;
+  document.getElementById("title").textContent = title;
 
-    const captureUri = () => (
-      'org-protocol://capture'
-        + '?url=' + encodeURIComponent(url)
-        + '&title=' + encodeURIComponent(title)
-      // TODO: Consider adding "&body=" too.  A content script might
-      // be necessary to access window.getSelection().
-    );
+  const storeUri = () => (
+    'org-protocol://store-link'
+      + '?url=' + encodeURIComponent(url)
+      + '&title=' + encodeURIComponent(title)
+  );
 
-    const storeListener = event => {
-      browser.tabs.update({url: storeUri()});
-      event.currentTarget.classList.add("clicked");
-      event.currentTarget.removeEventListener('click', storeListener);
-    };
-    const captureListener = event => {
-      browser.tabs.update({url: captureUri()});
-      window.close();
-    };
+  const captureUri = () => (
+    'org-protocol://capture'
+      + '?url=' + encodeURIComponent(url)
+      + '&title=' + encodeURIComponent(title)
+    // TODO: Consider adding "&body=" too.  A content script might
+    // be necessary to access window.getSelection().
+  );
 
-    document.getElementById("store").addEventListener(
-      'click', storeListener
-    );
+  const storeListener = event => {
+    browser.tabs.update({url: storeUri()});
+    event.currentTarget.classList.add("clicked");
+    event.currentTarget.removeEventListener('click', storeListener);
+  };
+  const captureListener = event => {
+    browser.tabs.update({url: captureUri()});
+    window.close();
+  };
 
-    document.getElementById("capture").addEventListener(
-      'click', captureListener
-    );
-  }
-);
+  document.getElementById("store").addEventListener(
+    'click', storeListener
+  );
+
+  document.getElementById("capture").addEventListener(
+    'click', captureListener
+  );
+};
+
+pageAction();
