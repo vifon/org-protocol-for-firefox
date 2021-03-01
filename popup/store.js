@@ -22,15 +22,15 @@ browser.tabs.query({ currentWindow: true, active: true }).then(
       // be necessary to access window.getSelection().
     );
 
-    const makeListener = (uriFunc, self) => (
-      event => {
-        browser.tabs.update({url: uriFunc()});
-        event.currentTarget.classList.add("clicked");
-        event.currentTarget.removeEventListener('click', self());
-      }
-    );
-    const storeListener = makeListener(storeUri, () => storeListener);
-    const captureListener = makeListener(captureUri, () => captureListener);
+    const storeListener = event => {
+      browser.tabs.update({url: storeUri()});
+      event.currentTarget.classList.add("clicked");
+      event.currentTarget.removeEventListener('click', storeListener);
+    };
+    const captureListener = event => {
+      browser.tabs.update({url: captureUri()});
+      window.close();
+    };
 
     document.getElementById("store").addEventListener(
       'click', storeListener
