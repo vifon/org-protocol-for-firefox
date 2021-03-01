@@ -1,12 +1,37 @@
+body {
+  margin: 1em;
+}
+
 .clicked {
   opacity: 0.4;
 }
 button > * {
   display: inline-block;
+  margin: 1em;
 }
-.title {
+header {
+  margin-bottom: 1em;
+}
+header > * {
+  align-self: center;
+}
+.logo {
+  margin-right: 0.5em;
+}
+#title {
   font-weight: bold;
 }
-img {
-  vertical-align: top;
+.flex {
+  display: flex;
+  flex-wrap: nowrap;
+}
+.buttons {
+  justify-content: space-evenly;
+}
+.buttons > * + * {
+  margin-left: 1em;
+}
+button {
+  padding: 1em 2em;
+  font-weight: bold;
 }

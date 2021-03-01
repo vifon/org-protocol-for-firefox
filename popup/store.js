@@ -5,31 +5,39 @@ browser.tabs.query({ currentWindow: true, active: true }).then(
     const url = tab.url;
     const title = tab.title;
 
-    document.getElementById("storeurl").textContent = url;
-    document.getElementById("storetitle").textContent = title;
-    document.getElementById("captureurl").textContent = url;
-    document.getElementById("capturetitle").textContent = title;
+    document.getElementById("url").textContent = url;
+    document.getElementById("title").textContent = title;
 
-    const storeUri =
-          'org-protocol://store-link'
-          + '?url=' + encodeURIComponent(url)
-          + '&title=' + encodeURIComponent(title);
-
-    const captureUri =
-          'org-protocol://capture'
-          + '?url=' + encodeURIComponent(url)
-          + '&title=' + encodeURIComponent(title);
-
-    document.getElementById("store").addEventListener('click',
-      function (event) {
-        browser.tabs.update({url: storeUri});
-      }
+    const storeUri = () => (
+      'org-protocol://store-link'
+        + '?url=' + encodeURIComponent(url)
+        + '&title=' + encodeURIComponent(title)
     );
 
-    document.getElementById("capture").addEventListener('click',
-      function (event) {
-        browser.tabs.update({url: captureUri});
+    const captureUri = () => (
+      'org-protocol://capture'
+        + '?url=' + encodeURIComponent(url)
+        + '&title=' + encodeURIComponent(title)
+      // TODO: Consider adding "&body=" too.  A content script might
+      // be necessary to access window.getSelection().
+    );
+
+    const makeListener = (uriFunc, self) => (
+      event => {
+        browser.tabs.update({url: uriFunc()});
+        event.currentTarget.classList.add("clicked");
+        event.currentTarget.removeEventListener('click', self());
       }
+    );
+    const storeListener = makeListener(storeUri, () => storeListener);
+    const captureListener = makeListener(captureUri, () => captureListener);
+
+    document.getElementById("store").addEventListener(
+      'click', storeListener
+    );
+
+    document.getElementById("capture").addEventListener(
+      'click', captureListener
     );
   }
 );

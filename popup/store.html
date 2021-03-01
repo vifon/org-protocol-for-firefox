@@ -7,21 +7,20 @@
   </head>
 
   <body>
-    <button id="store" autofocus>
-      <img alt="emacs_logo" src="../emacs48.png" />
+    <header class="flex">
+      <img class="logo" alt="emacs_logo" src="../emacs48.png" />
       <div>
-        <h3>Store Link</h3>
-        <div class="title" id="storetitle"></div>
-        <div id="storeurl"></div>
+        <div id="title"></div>
+        <div id="url"></div>
       </div>
-    </button>
-    <button id="capture">
-      <img alt="emacs_logo" src="../emacs48.png" />
-      <div>
-        <h3>Capture</h3>
-        <div class="title" id="capturetitle"></div>
-        <div id="captureurl"></div>
-      </div>
-    </button>
+    </header>
+    <div class="flex buttons">
+      <button id="store" autofocus>
+        Store Link
+      </button>
+      <button id="capture">
+        Capture
+      </button>
+    </div>
   </body>
 </html>
