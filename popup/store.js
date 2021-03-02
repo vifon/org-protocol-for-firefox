@@ -1,6 +1,6 @@
 "use strict";
 
-async function pageAction() {
+(async function () {
   const tabs = await browser.tabs.query({ currentWindow: true, active: true });
   const tab = tabs[0];
 
@@ -43,6 +43,4 @@ async function pageAction() {
   document.getElementById("capture").addEventListener(
     'click', captureListener
   );
-};
-
-pageAction();
+})();
