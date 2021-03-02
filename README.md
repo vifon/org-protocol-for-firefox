@@ -20,6 +20,15 @@ current page to Emacs with `org-protocol`.  The configuration specific
 to `org-protocol` is almost certainly needed, please refer to its
 documentation.
 
+PERMISSIONS
+-----------
+
+This addon requires the "Access your data for all websites"
+permission.  It's used solely to extract the currently selected text
+to pass it to `org-capture`, see
+[this file](https://github.com/vifon/org-protocol-for-firefox/blob/master/content-script.js)
+for the details.
+
 COPYRIGHT
 ---------
 
