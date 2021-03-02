@@ -10,27 +10,29 @@ async function pageAction() {
   document.getElementById("url").textContent = url;
   document.getElementById("title").textContent = title;
 
-  const storeUri = () => (
-    'org-protocol://store-link'
+  const storeUri = async () => {
+    return 'org-protocol://store-link'
+      + '?url=' + encodeURIComponent(url)
+      + '&title=' + encodeURIComponent(title);
+  };
+
+  const captureUri = async () => {
+    const selection = browser.tabs.sendMessage(
+      tab.id, {'msg': 'get-selection'}
+    );
+    return 'org-protocol://capture'
       + '?url=' + encodeURIComponent(url)
       + '&title=' + encodeURIComponent(title)
-  );
+      + '&body=' + encodeURIComponent(await selection);
+  };
 
-  const captureUri = () => (
-    'org-protocol://capture'
-      + '?url=' + encodeURIComponent(url)
-      + '&title=' + encodeURIComponent(title)
-    // TODO: Consider adding "&body=" too.  A content script might
-    // be necessary to access window.getSelection().
-  );
-
-  const storeListener = event => {
-    browser.tabs.update({url: storeUri()});
+  const storeListener = async event => {
+    browser.tabs.update({url: await storeUri()});
     event.currentTarget.classList.add("clicked");
     event.currentTarget.removeEventListener('click', storeListener);
   };
-  const captureListener = event => {
-    browser.tabs.update({url: captureUri()});
+  const captureListener = async event => {
+    browser.tabs.update({url: await captureUri()});
     window.close();
   };
 
