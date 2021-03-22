@@ -43,4 +43,12 @@
   document.getElementById("capture").addEventListener(
     'click', captureListener
   );
+
+  window.addEventListener(
+    'keyup', async event => {
+      if (event.keyCode == 'C'.charCodeAt(0)) {
+        return await captureListener(event);
+      }
+    }
+  );
 })();
